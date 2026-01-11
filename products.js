@@ -2,11 +2,6 @@ function getProducts() {
     return [
         "Aceite",
         "Aceitunas",
-        "Ajo molido"
-    ];
-    return [
-        "Aceite",
-        "Aceitunas",
         "Ajo molido",
         "Alcohol",
         "Arroz",
