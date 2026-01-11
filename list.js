@@ -9,10 +9,8 @@ function List(parentElementId) {
   }
 
   this.makePreparedList = () => {
-    database.products.forEach(product => {
-      if(product.selected ) {
-        this.listItems.push(new PreparedListItem(product, this.elementId)) 
-      }
+    database.preparedList.forEach(dictionary => {
+      this.listItems.push(new PreparedListItem(dictionary.product, this.elementId))
     })
   }  
 
@@ -23,12 +21,12 @@ function List(parentElementId) {
   }  
 
   this.render = () => {
-      if (database.getShowPreparedList()) {
-        this.makePreparedList()      
-      } else {
+      if (database.mainListShowing()) {
         this.makeNormalList()
+      } else if (database.preparedListShowing()) {
+        this.makePreparedList()      
       }
-
+      
       let htmlComponent = document.getElementById(this.parentElementId);
 
       if (htmlComponent != undefined) {

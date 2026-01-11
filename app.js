@@ -1,6 +1,7 @@
 function App(parentElementId) {
   this.elementId = "app" 
   this.parentElementId = parentElementId;
+  
   this.render = () => {
       let htmlComponent = document.getElementById(this.parentElementId);
 

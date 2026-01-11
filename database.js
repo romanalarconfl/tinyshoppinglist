@@ -1,34 +1,29 @@
 function Database() {
     this.productsListKey = "shopping-list-products"
-    this.showPreparedListKey = "show-prepared-list"
+    this.preparedListKey = "prepared-list"
+    this.currentWindowKey = "current-window"
+
+    const MAIN_LIST = "main-list";
+    const PREPARED_LIST = "prepared-list"
+
     this.products = []
+    this.preparedList = []
     
-    this.setShowPreparedList = (value) => {
-      try {
-        localStorage.setItem(this.showPreparedListKey, value ? "YES" : "NO");
-      } catch (e) {
-        console.log("setShowPreparedList: An error has occurred: " + e);
-      } 
-    }
-
-    this.getShowPreparedList = () => {
-      try {
-        return localStorage.getItem(this.showPreparedListKey) === "YES";
-      } catch (e) {
-        console.log("setShowPreparedList: An error has occurred: " + e);
-        return false;
-      } 
-    }
-
-    this.loadProducts = () => {
+    this.load = () => {
       try { 
         this.products = JSON.parse(localStorage.getItem(this.productsListKey)) || [];
+        this.preparedList = JSON.parse(localStorage.getItem(this.preparedListKey)) || [];
 
-        if(this.products == undefined ||this.products == null || this.products.length == 0) {
+        if(this.products == undefined || this.products == null || this.products.length == 0) {
             getProducts().forEach(product => {
                 this.addProduct(product)
             })
         } 
+
+        if(this.preparedList == undefined || this.preparedList == null) {
+            this.preparedList = [];
+        } 
+
       } catch(e) {
         alert("Database Error " + e)
       }
@@ -40,6 +35,15 @@ function Database() {
         this.products = products 
       } catch (e) {
         console.log("saveProducts: An error has occurred: " + e);
+      } 
+    }
+
+    this.savePreparedItems = (preparedList = this.preparedList) => {
+      try {
+        localStorage.setItem(this.preparedListKey, JSON.stringify(preparedList));
+        this.preparedList = preparedList 
+      } catch (e) {
+        console.log("savePreparedItems: An error has occurred: " + e);
       } 
     }
 
@@ -85,13 +89,84 @@ function Database() {
         console.log("DATABASE CONTENT:\n" + localStorage.getItem(this.productsListKey))
     } 
 
-    this.reset = () => {
-        localStorage.setItem(this.productsListKey, JSON.stringify([]));
-        this.loadProducts()
+    this.buildPreparedList = () => {
+      let preparedList = []
+      this.products.forEach(product => {
+        if (product.selected) {
+          preparedList.push({ 
+            done: this.preparedItemIsDone(product.id), 
+            product: product 
+          })  
+        }
+      });
+
+      this.savePreparedItems(preparedList)
     }
 
-    this.loadProducts()
-    //this.reset()
+    this.clearPreparedList = () => {
+      this.preparedList = []
+      try {
+        localStorage.setItem(this.preparedListKey, JSON.stringify([]));
+      } catch (e) {
+        console.log("clearPreparedList: An error has occurred: " + e);
+      } 
+    }
+
+    this.markPreparedItemDone = (productId) => {
+        let itemIndex = this.preparedList.findIndex(preparedItem => preparedItem.product.id === productId); 
+        
+        if (itemIndex != -1) {
+          const product = this.preparedList[itemIndex].product 
+
+          this.preparedList[itemIndex] = { done: true, product: product }
+          this.savePreparedItems()
+        }
+    }
+
+    this.deletePreparedItem = (productId) => {
+        const filteredItems = this.preparedList.filter(preparedItem => preparedItem.product.id !== productId); 
+        
+        if (filteredItems != undefined) {
+          this.savePreparedItems(filteredItems)
+        }
+    }
+
+    this.preparedItemIsDone = (productId) => {
+        let item = this.preparedList.find(preparedItem => preparedItem.product.id === productId); 
+        if (item != undefined) {
+            return item.done;
+        }
+
+        return false;
+    }
+
+    this.isPreparedListEmpty = () => {
+      return this.preparedList.length === 0 || false
+    }
+
+    this.reset = () => {
+        localStorage.setItem(this.productsListKey, JSON.stringify([]));
+        localStorage.setItem(this.preparedListKey, JSON.stringify([]));
+        this.load()
+    }
+
+    this.setShowMainList = () => {
+        localStorage.setItem(this.currentWindowKey, MAIN_LIST);  
+    }
+
+    this.setShowPreparedList = () => {
+        localStorage.setItem(this.currentWindowKey, PREPARED_LIST);  
+    }
+
+    this.mainListShowing = () => {
+        return localStorage.getItem(this.currentWindowKey) === MAIN_LIST  
+    }
+
+    this.preparedListShowing = () => {
+        return localStorage.getItem(this.currentWindowKey) === PREPARED_LIST  
+    }
+
+    this.load()
     this.print()
 }
 

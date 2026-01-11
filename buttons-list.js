@@ -8,18 +8,20 @@ function ButtonsList(parentElementId) {
   }
 
   this.onResetButtonClick = () => {
-     database.setShowPreparedList(false)
+     database.clearPreparedList()
+     database.setShowMainList()
      database.reset()
      window.location.reload()
   }
 
   this.onShowSelectionListClick = () => {
-     database.setShowPreparedList(false)
+     database.setShowMainList()
      window.location.reload()
   }
 
   this.onPrepareListButtonClick = () => {
-     database.setShowPreparedList(true)
+     database.buildPreparedList()
+     database.setShowPreparedList()
      window.location.reload()
   }
 
@@ -32,10 +34,11 @@ function ButtonsList(parentElementId) {
 
       if (htmlComponent != undefined) {
          (new Button("Limpiar todo", "basic-button", this.elementId, this.onResetButtonClick)).render()
-         if (database.getShowPreparedList()) {
-             (new Button("Agregar m&aacute;s", "basic-button", this.elementId, this.onShowSelectionListClick)).render()
-         } else {
+         
+         if(database.mainListShowing()) {
              (new Button("Preparar lista final", "basic-button", this.elementId, this.onPrepareListButtonClick)).render()
+         } else if (database.preparedListShowing()) {
+             (new Button("Agregar m&aacute;s", "basic-button", this.elementId, this.onShowSelectionListClick)).render()
          }
       }
   }

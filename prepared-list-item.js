@@ -9,10 +9,17 @@ function PreparedListItem(product, parentElementId) {
   this.onDoneButtonClickHandler = (target) => {
     this.doneButton.disable()
     this.label.strikeOut()
+    database.markPreparedItemDone(this.productId)
   }
 
   this.onDiscardButtonClickHandler = (target) => {
     database.productSelectionState(this.productId, false)
+    database.deletePreparedItem(this.productId)
+
+    if(database.isPreparedListEmpty()) {
+      database.setShowMainList()
+    }
+
     window.location.reload()
   }
 
@@ -34,6 +41,11 @@ function PreparedListItem(product, parentElementId) {
          this.label.render();
          this.discardButton.render();
          this.doneButton.render();
+
+         if (database.preparedItemIsDone(this.productId)) {
+            this.label.strikeOut()
+            this.doneButton.disable() 
+         }
       }
   }
 }

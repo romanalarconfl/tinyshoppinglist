@@ -1,5 +1,5 @@
 function Checkbox(parentElementId, selected, productId, onCheckboxChangeHandler) {
-  this.checkboxId = "button_" + Math.random();
+  this.checkboxId = "checkbox_" + Math.random();
   this.parentElementId = parentElementId;
   this.selected = selected;
   this.productId = productId;
