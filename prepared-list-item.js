@@ -1,15 +1,15 @@
-function PreparedListItem(product, parentElementId) {
-  this.elementId = "prepared_list_" + Math.random()
-  this.productId = product.id
+function PreparedListItem(product, parentElementId, onMarkProductAsDoneItem) {
+  this.elementId = "prepared_list_" + Math.random();
+  this.productId = product.id;
   this.preparedListItemId = "prepared-list-item-" + product.id;
   this.buttonsSectionId = "prepared-list-item-buttons-" + product.id;
-  this.title = product.name
-  this.parentElementId = parentElementId
+  this.title = product.name;
+  this.parentElementId = parentElementId;
 
   this.onDoneButtonClickHandler = (target) => {
     this.doneButton.disable()
     this.label.strikeOut()
-    database.markPreparedItemDone(this.productId)
+    onMarkProductAsDoneItem(this.productId)
   }
 
   this.onDiscardButtonClickHandler = (target) => {

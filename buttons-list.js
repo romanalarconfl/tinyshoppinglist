@@ -1,11 +1,22 @@
-function ButtonsList(parentElementId) {
+function ButtonsList(onResetButtonClick, 
+                     onShowMainListClick, 
+                     onPrepareListButtonClick,
+                     onCheckboxChangeHandler,
+                     parentElementId) {
   this.elementId = "buttons_" + Math.random()
   this.parentElementId = parentElementId
 
-  this.chackboxChangeHandler = (productId, checkStatus) => {
+  this.onResetButtonClick = onResetButtonClick;
+  this.onShowMainListClick = onShowMainListClick;
+  this.onPrepareListButtonClick = onPrepareListButtonClick;
+  this.checkboxChangeHandler = onCheckboxChangeHandler;
+
+/*  this.chackboxChangeHandler = (productId, checkStatus) => {
     database.productSelectionState(productId, checkStatus)
     database.print()
   }
+
+
 
   this.onResetButtonClick = () => {
      database.clearPreparedList()
@@ -21,9 +32,19 @@ function ButtonsList(parentElementId) {
 
   this.onPrepareListButtonClick = () => {
      database.buildPreparedList()
-     database.setShowPreparedList()
-     window.location.reload()
+
+     if(!database.isPreparedListEmpty()) {
+       database.setShowPreparedList()
+       window.location.reload()
+     } else {
+       this.showNoSelectedItemsNotice = false;
+     }
   }
+
+  this.reload = () => {
+    htmlComponent.innerHTML = "";
+    this.render()
+  }*/
 
   this.render = () => {
       let htmlComponent = document.getElementById(this.parentElementId);
@@ -38,7 +59,7 @@ function ButtonsList(parentElementId) {
          if(database.mainListShowing()) {
              (new Button("Preparar lista final", "basic-button", this.elementId, this.onPrepareListButtonClick)).render()
          } else if (database.preparedListShowing()) {
-             (new Button("Agregar m&aacute;s", "basic-button", this.elementId, this.onShowSelectionListClick)).render()
+             (new Button("Agregar m&aacute;s", "basic-button", this.elementId, this.onShowMainListClick)).render()
          }
       }
   }

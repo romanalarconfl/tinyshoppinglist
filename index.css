@@ -35,10 +35,16 @@ body, html {
   width: 100%;
 }
 
+.prepared-list-list-items {
+  display: block;
+  width: 100%;
+  background-color: lightgrey;
+}
+
 .list-item-row {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* texto a la izquierda, checkbox a la derecha */
+  justify-content: space-between; 
   padding: 10px 24px;
 }
 
@@ -99,4 +105,19 @@ input[type="checkbox"] {
   border-radius: 5px;
   padding: 8px;
   width: fit-content;
+}
+
+.notice-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.notice-caption {
+  font-family: 'Roboto Condensed', sans-serif;
+  color: black;
+  font-size: 16px;
 }

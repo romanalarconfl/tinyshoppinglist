@@ -147,6 +147,7 @@ function Database() {
     this.reset = () => {
         localStorage.setItem(this.productsListKey, JSON.stringify([]));
         localStorage.setItem(this.preparedListKey, JSON.stringify([]));
+        this.setShowMainList();
         this.load()
     }
 
@@ -166,7 +167,13 @@ function Database() {
         return localStorage.getItem(this.currentWindowKey) === PREPARED_LIST  
     }
 
+    this.forceResetWhenLoading = () => {
+      this.reset()
+      alert("WARNING: Database has been reset when loading")
+    }
+
     this.load()
+    //this.forceResetWhenLoading()
     this.print()
 }
 
