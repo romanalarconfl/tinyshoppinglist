@@ -52,6 +52,13 @@ body, html {
   text-decoration: line-through;
 }
 
+.prepared-list-row-buttons-section {
+  display: flex;
+  flex-direction: row;
+  align-items: right;
+  gap: 4px;
+}
+
 input[type="checkbox"] {
   margin: 0;
   font: inherit;
@@ -75,17 +82,21 @@ input[type="checkbox"] {
 .basic-button {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 14px;
-  background-color:white;
+  color: white;
+  background-color:goldenrod;
   border: none;
   border-radius: 5px;
-  padding: 0.4rem 1.4rem;
+  padding: 8px;
+  width: fit-content;
 }
 
 .prepared-list-button {
   font-family: 'Roboto Condensed', sans-serif;
+  color: white;
   font-size: 12px;
-  background-color:yellow;
+  background-color:goldenrod;
   border: none;
   border-radius: 5px;
-  padding: 0.4rem 1.4rem;
+  padding: 8px;
+  width: fit-content;
 }

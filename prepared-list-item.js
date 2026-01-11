@@ -1,8 +1,8 @@
 function PreparedListItem(product, parentElementId) {
-  this.id = product.id
-  this.preparedListItemId = "prepared-list-item-" + this.id;
-  this.labelId = "prepared-list-item-label" + this.id;
-  this.buttonId = "prepared-list-item-button-" + this.id;
+  this.elementId = "prepared_list_" + Math.random()
+  this.productId = product.id
+  this.preparedListItemId = "prepared-list-item-" + product.id;
+  this.buttonsSectionId = "prepared-list-item-buttons-" + product.id;
   this.title = product.name
   this.parentElementId = parentElementId
 
@@ -11,18 +11,28 @@ function PreparedListItem(product, parentElementId) {
     this.label.strikeOut()
   }
 
-  this.label = new Label(product.id, this.title, this.preparedListItemId)
-  this.doneButton = new Button(product.id, "Done", "prepared-list-button", this.preparedListItemId, this.onDoneButtonClickHandler)
+  this.onDiscardButtonClickHandler = (target) => {
+    database.productSelectionState(this.productId, false)
+    window.location.reload()
+  }
+
+  this.label = new Label(this.title, "list-item", this.preparedListItemId)
+  this.doneButton = new Button("Listo", "prepared-list-button", this.buttonsSectionId, this.onDoneButtonClickHandler)
+  this.discardButton = new Button("Descartar", "prepared-list-button", this.buttonsSectionId, this.onDiscardButtonClickHandler)
 
   this.render = () => {
       let htmlComponent = document.getElementById(this.parentElementId);
 
       if (htmlComponent != undefined) {
          htmlComponent.innerHTML += `
-             <div id="${this.preparedListItemId}" class="list-item-row"></div>
+             <div class="list-item-row">
+                <div id="${this.preparedListItemId}" ></div>
+                <div id="${this.buttonsSectionId}" class="prepared-list-row-buttons-section" ></div>
+             </div>
          `;
 
          this.label.render();
+         this.discardButton.render();
          this.doneButton.render();
       }
   }

@@ -1,5 +1,5 @@
-function Button(id, caption, cssClass, parentElementId, onClickHandler) {
-  this.buttonId = "button_" + id;
+function Button(caption, cssClass, parentElementId, onClickHandler) {
+  this.buttonId = "button_" + Math.random();
   this.caption = caption
   this.parentElementId = parentElementId;
   this.cssClass = cssClass;
@@ -9,7 +9,11 @@ function Button(id, caption, cssClass, parentElementId, onClickHandler) {
   });
 
   this.disable = () => {
-      document.getElementById(this.buttonId).disabled = true
+    const wrappedButton = document.getElementById(this.buttonId)
+
+    if(wrappedButton != undefined) {
+      wrappedButton.style.color = 'lightgray';  
+    }
   }
 
   this.render = () => {

@@ -1,8 +1,7 @@
-function List(listId, parentElementId) {
-  this.listId = listId;
-  this.elementId = "list-items";
+function List(parentElementId) {
+  this.elementId = "list_" + Math.random();
   this.parentElementId = parentElementId;
-  this.listOfProducts = [];
+  this.listItems = [];
 
   this.chackboxChangeHandler = (productId, checkStatus) => {
     database.productSelectionState(productId, checkStatus)
@@ -12,14 +11,14 @@ function List(listId, parentElementId) {
   this.makePreparedList = () => {
     database.products.forEach(product => {
       if(product.selected ) {
-        this.listOfProducts.push(new PreparedListItem(product, this.elementId)) 
+        this.listItems.push(new PreparedListItem(product, this.elementId)) 
       }
     })
   }  
 
   this.makeNormalList = () => {
     database.products.forEach(product => {
-       this.listOfProducts.push(new ListItem(product, this.elementId, this.chackboxChangeHandler)) 
+       this.listItems.push(new ListItem(product, this.elementId, this.chackboxChangeHandler)) 
     })
   }  
 
@@ -37,8 +36,8 @@ function List(listId, parentElementId) {
             <p id="${this.elementId}" class="list-items"></p>
          `;
 
-         this.listOfProducts.forEach(product => {
-             product.render();
+         this.listItems.forEach(item => {
+             item.render();
          })
       }
   }

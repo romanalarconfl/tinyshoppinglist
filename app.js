@@ -29,7 +29,7 @@ function App(parentElementId) {
 
   this.components = [
     new Header("Lista de compras", "Productos en general", "header-container"),
-    new List("supermarket-list-id", "list-container"),
+    new List("list-container"),
     new ButtonsList(this.elementId)
   ] 
 }

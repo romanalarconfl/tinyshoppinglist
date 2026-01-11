@@ -1,6 +1,7 @@
-function Label(id, caption, parentElementId) {
-  this.labelId = "label_" + id;
+function Label(caption, cssClassId, parentElementId) {
+  this.labelId = "label_" + Math.random();
   this.caption = caption
+  this.cssClassId = cssClassId
   this.parentElementId = parentElementId;
 
   this.strikeOut = () => {
@@ -16,7 +17,7 @@ function Label(id, caption, parentElementId) {
       let htmlComponent = document.getElementById(this.parentElementId);
       if (htmlComponent != undefined) {
         htmlComponent.innerHTML += `
-          <label id="${this.labelId}" class="list-item">${this.caption}</label> 
+          <label id="${this.labelId}" class="${this.cssClassId}">${this.caption}</label> 
         `;
       }
   }
