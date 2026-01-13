@@ -11,41 +11,6 @@ function ButtonsList(onResetButtonClick,
   this.onPrepareListButtonClick = onPrepareListButtonClick;
   this.checkboxChangeHandler = onCheckboxChangeHandler;
 
-/*  this.chackboxChangeHandler = (productId, checkStatus) => {
-    database.productSelectionState(productId, checkStatus)
-    database.print()
-  }
-
-
-
-  this.onResetButtonClick = () => {
-     database.clearPreparedList()
-     database.setShowMainList()
-     database.reset()
-     window.location.reload()
-  }
-
-  this.onShowSelectionListClick = () => {
-     database.setShowMainList()
-     window.location.reload()
-  }
-
-  this.onPrepareListButtonClick = () => {
-     database.buildPreparedList()
-
-     if(!database.isPreparedListEmpty()) {
-       database.setShowPreparedList()
-       window.location.reload()
-     } else {
-       this.showNoSelectedItemsNotice = false;
-     }
-  }
-
-  this.reload = () => {
-    htmlComponent.innerHTML = "";
-    this.render()
-  }*/
-
   this.render = () => {
       let htmlComponent = document.getElementById(this.parentElementId);
 

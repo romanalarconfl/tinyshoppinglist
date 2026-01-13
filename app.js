@@ -10,12 +10,7 @@ function App(parentElementId) {
       let htmlComponent = document.getElementById(this.parentElementId);
 
       if (htmlComponent != undefined) {
-         htmlComponent.innerHTML += `
-           <div id="${this.appId}">
-              <div id="header-container" class="header-container"></div>
-              <div id="list-container" class="list-container"></div>
-           </div>   
-         `;
+         htmlComponent.innerHTML += `<div id="${this.appId}"></div>`;
 
          this.components.forEach(component => {
              component.render();
@@ -34,10 +29,10 @@ function App(parentElementId) {
 
   this.createList = () => {
     if(database.preparedListShowing()) {
-        return new PreparedList("list-container");
+        return new PreparedList(this.appId);
     }
 
-    return new List("list-container");
+    return new List(this.appId);
   }
 
   this.chackboxChangeHandler = (productId, checkStatus) => {
@@ -75,10 +70,10 @@ function App(parentElementId) {
   }
 
   this.buildComponents = () => {
-     this.components = [new Header("Lista de compras", "Productos en general", "header-container")];
+     this.components = [new Header("Lista de compras", "Productos en general", this.appId)];
 
      if (this.showNoSelectedItemsNotice) {
-       this.components.push(new Notice("No se eligieron productos!", "assets/warning.png", "list-container"));
+       this.components.push(new Notice("No se eligieron productos!", "assets/warning.png", this.appId));
      }  
 
      this.components.push(this.createList())
