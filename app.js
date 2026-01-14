@@ -27,9 +27,14 @@ function App(parentElementId) {
       }
   }
 
+  this.handleEmptyPreparedList = () => {
+    database.setShowMainList()
+    this.reload()
+  }
+
   this.createList = () => {
     if(database.preparedListShowing()) {
-        return new PreparedList(this.appId);
+        return new PreparedList(this.appId, this.handleEmptyPreparedList);
     }
 
     return new List(this.appId);

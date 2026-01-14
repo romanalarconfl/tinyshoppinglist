@@ -1,13 +1,26 @@
-function PreparedList(parentElementId) {
+function PreparedList(parentElementId, onEmptyPreparedList) {
   this.elementId = "prepared_list_" + Math.random();
   this.itemsListId = "prepared_items_list_" + Math.random();
   this.parentElementId = parentElementId;
   this.listItems = [];
 
-  this.markProductAsDoneItem = (productId) => {
-    database.markPreparedItemDone(productId)
+  this.handleMarkOrUnmarkProductAsDone = (productId) => {
+    if (database.preparedItemIsDone(productId)) {
+      database.unmarkPreparedItemAsDone(productId)
+    } else {
+      database.markPreparedItemAsDone(productId)
+    }
+
     this.reload()
   }
+
+  this.handleDiscardItem = () => {
+    if(database.isPreparedListEmpty()) {
+      onEmptyPreparedList() 
+    } else {
+      this.reload()
+    }
+  } 
 
   this.reload = () => {
       let htmlComponent = document.getElementById(this.elementId);
@@ -30,7 +43,7 @@ function PreparedList(parentElementId) {
          database.preparedList.forEach(dictionary => {
            const {done, product} = dictionary
            doneProducts += done ? 1 : 0; 
-           this.listItems.push(new PreparedListItem(product, this.elementId, this.markProductAsDoneItem))
+           this.listItems.push(new PreparedListItem(product, this.elementId, this.handleMarkOrUnmarkProductAsDone, this.handleDiscardItem))
          })
 
          if (this.listItems.length == doneProducts) {

@@ -8,12 +8,6 @@ function List(parentElementId) {
     database.print()
   }
 
-  this.makePreparedList = () => {
-    database.preparedList.forEach(dictionary => {
-      this.listItems.push(new PreparedListItem(dictionary.product, this.elementId))
-    })
-  }  
-
   this.makeNormalList = () => {
     database.products.forEach(product => {
        this.listItems.push(new ListItem(product, this.elementId, this.chackboxChangeHandler)) 

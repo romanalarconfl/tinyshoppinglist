@@ -118,6 +118,11 @@ input[type="checkbox"] {
   width: fit-content;
 }
 
+.image-button {
+  background-color:transparent;
+  border: none;
+}
+
 .prepared-list-button {
   font-family: 'Roboto Condensed', sans-serif;
   color: white;
@@ -136,6 +141,7 @@ input[type="checkbox"] {
   align-items: center;
   gap: 8px;
   width: 100%;
+  background-color: cadetblue;
 }
 
 .notice-caption {

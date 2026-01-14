@@ -1,4 +1,4 @@
-function PreparedListItem(product, parentElementId, onMarkProductAsDoneItem) {
+function PreparedListItem(product, parentElementId, onMarkOrUnmarkProductAsDone, onDiscardItem) {
   this.elementId = "prepared_list_" + Math.random();
   this.productId = product.id;
   this.preparedListItemId = "prepared-list-item-" + product.id;
@@ -6,26 +6,24 @@ function PreparedListItem(product, parentElementId, onMarkProductAsDoneItem) {
   this.title = product.name;
   this.parentElementId = parentElementId;
 
-  this.onDoneButtonClickHandler = (target) => {
-    this.doneButton.disable()
+  this.onDoneOrUndoButtonClickHandler = (target) => {
     this.label.strikeOut()
-    onMarkProductAsDoneItem(this.productId)
+    onMarkOrUnmarkProductAsDone(this.productId)
   }
 
   this.onDiscardButtonClickHandler = (target) => {
     database.productSelectionState(this.productId, false)
     database.deletePreparedItem(this.productId)
 
-    if(database.isPreparedListEmpty()) {
-      database.setShowMainList()
-    }
-
-    window.location.reload()
+    onDiscardItem()
   }
 
+  const doneOrUndoIcon = database.preparedItemIsDone(this.productId) ? "./assets/undo-button.png" 
+                                                                     : "./assets/done-button.png"
+
   this.label = new Label(this.title, "list-item", this.preparedListItemId)
-  this.doneButton = new Button("Listo", "prepared-list-button", this.buttonsSectionId, this.onDoneButtonClickHandler)
-  this.discardButton = new Button("Descartar", "prepared-list-button", this.buttonsSectionId, this.onDiscardButtonClickHandler)
+  this.doneOrUndoButton = new ImageButton(doneOrUndoIcon, "image-button", this.buttonsSectionId, this.onDoneOrUndoButtonClickHandler)
+  this.discardButton = new ImageButton("./assets/discard-can.png", "image-button", this.buttonsSectionId, this.onDiscardButtonClickHandler)
 
   this.render = () => {
       let htmlComponent = document.getElementById(this.parentElementId);
@@ -40,11 +38,10 @@ function PreparedListItem(product, parentElementId, onMarkProductAsDoneItem) {
 
          this.label.render();
          this.discardButton.render();
-         this.doneButton.render();
+         this.doneOrUndoButton.render();
 
          if (database.preparedItemIsDone(this.productId)) {
             this.label.strikeOut()
-            this.doneButton.disable() 
          }
       }
   }

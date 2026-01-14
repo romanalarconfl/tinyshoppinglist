@@ -112,13 +112,24 @@ function Database() {
       } 
     }
 
-    this.markPreparedItemDone = (productId) => {
+    this.markPreparedItemAsDone = (productId) => {
         let itemIndex = this.preparedList.findIndex(preparedItem => preparedItem.product.id === productId); 
         
         if (itemIndex != -1) {
           const product = this.preparedList[itemIndex].product 
 
           this.preparedList[itemIndex] = { done: true, product: product }
+          this.savePreparedItems()
+        }
+    }
+
+    this.unmarkPreparedItemAsDone = (productId) => {
+        let itemIndex = this.preparedList.findIndex(preparedItem => preparedItem.product.id === productId); 
+        
+        if (itemIndex != -1) {
+          const product = this.preparedList[itemIndex].product 
+
+          this.preparedList[itemIndex] = { done: false, product: product }
           this.savePreparedItems()
         }
     }
