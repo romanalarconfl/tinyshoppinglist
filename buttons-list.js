@@ -15,7 +15,7 @@ function ButtonsList(onResetButtonClick,
       let htmlComponent = document.getElementById(this.parentElementId);
 
       htmlComponent.innerHTML += `
-         <div id="${this.elementId}" class="button-items"></div>
+         <div id="${this.elementId}" class="footer-buttons"></div>
       `
 
       if (htmlComponent != undefined) {

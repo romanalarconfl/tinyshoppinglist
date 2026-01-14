@@ -31,7 +31,7 @@ function List(parentElementId) {
 
       if (htmlComponent != undefined) {
          htmlComponent.innerHTML += `
-            <p id="${this.elementId}" class="list-items"></p>
+            <div id="${this.elementId}" class="list-items"></div>
          `;
 
          this.listItems.forEach(item => {

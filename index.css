@@ -40,16 +40,22 @@ body {
   color: lightgray;
 }
 
-/* Lista */
 .list-items {
   display: block;
   width: 100%;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-bottom: 10px;
 }
 
 .prepared-list-list-items {
   display: block;
   width: 100%;
   background-color: lightgrey;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .list-item-row {
@@ -83,7 +89,11 @@ input[type="checkbox"] {
   height: 1.5em;
 }
 
-.button-items {
+.footer-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   background-color: cadetblue;
   flex-direction: row;
@@ -93,7 +103,8 @@ input[type="checkbox"] {
   padding: 16px 24px;
   width: 100%;
   box-sizing: border-box;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
+  z-index: 1000;
 }
 
 .basic-button {
