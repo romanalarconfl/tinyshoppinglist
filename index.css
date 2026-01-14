@@ -46,7 +46,7 @@ body {
   max-height: calc(100vh - 200px);
   overflow-y: auto;
   box-sizing: border-box;
-  padding-bottom: 10px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 .prepared-list-list-items {
