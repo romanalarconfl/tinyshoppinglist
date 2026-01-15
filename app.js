@@ -49,12 +49,12 @@ function App(parentElementId) {
      database.clearPreparedList()
      database.setShowMainList()
      database.reset()
-     window.location.reload()
+     this.reload()
   }
 
   this.onShowMainListClick = () => {
      database.setShowMainList()
-     window.location.reload()
+     this.reload()
   }
 
   this.onPrepareListButtonClick = () => {
@@ -62,7 +62,7 @@ function App(parentElementId) {
 
      if(!database.isPreparedListEmpty()) {
        database.setShowPreparedList()
-       window.location.reload()
+       this.reload()
      } else {
        this.showNoSelectedItemsNotice = true;
        this.reload();
