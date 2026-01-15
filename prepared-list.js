@@ -53,9 +53,10 @@ function PreparedList(parentElementId, onEmptyPreparedList) {
          if (this.listItems.length > 0) {
            this.listItems.forEach(item => {
                item.render();
-           })
-         }
+           });
 
+           (new DummyItem("footer-dummy-item", this.elementId)).render();
+         }
      }
   }
 }

@@ -37,7 +37,7 @@ function App(parentElementId) {
         return new PreparedList(this.appId, this.handleEmptyPreparedList);
     }
 
-    return new List(this.appId);
+    return new SelectionList(this.appId);
   }
 
   this.chackboxChangeHandler = (productId, checkStatus) => {

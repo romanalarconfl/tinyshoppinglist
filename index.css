@@ -43,17 +43,14 @@ body {
 .list-items {
   display: block;
   width: 100%;
-  max-height: calc(100vh - 200px);
   overflow-y: auto;
   box-sizing: border-box;
-  padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 .prepared-list-list-items {
   display: block;
   width: 100%;
   background-color: lightgrey;
-  max-height: calc(100vh - 200px);
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -148,4 +145,10 @@ input[type="checkbox"] {
   font-family: 'Roboto Condensed', sans-serif;
   color: black;
   font-size: 16px;
+}
+
+.footer-dummy-item {
+  display: flex;
+  padding: 50px;
+  background-color: white;
 }
