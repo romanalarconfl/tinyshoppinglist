@@ -133,13 +133,23 @@ input[type="checkbox"] {
 }
 
 .notice-layout {
-  display: flex;
+  position: fixed;
+  top: 20px;
+  left: 0;
+  right: 0;  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 8px;
   width: 100%;
-  background-color: cadetblue;
+  z-index: 1000;
+  width: 300px;
+  background-color: rgba(255, 255, 255); /* blanco con alfa */
+  border: 2px solid black;
+  border-radius: 12px;        /* esquinas redondeadas */
+  margin: 0 auto; 
+  padding: 8px;
+
 }
 
 .notice-caption {
