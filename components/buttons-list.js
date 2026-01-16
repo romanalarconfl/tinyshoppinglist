@@ -22,7 +22,7 @@ function ButtonsList(onResetButtonClick,
          (new Button("Limpiar todo", "basic-button", this.elementId, this.onResetButtonClick)).render()
          
          if(database.mainListShowing()) {
-             (new Button("Preparar lista final", "basic-button", this.elementId, this.onPrepareListButtonClick)).render()
+             (new Button("Preparar lista", "basic-button", this.elementId, this.onPrepareListButtonClick)).render()
          } else if (database.preparedListShowing()) {
              (new Button("Agregar m&aacute;s", "basic-button", this.elementId, this.onShowMainListClick)).render()
          }

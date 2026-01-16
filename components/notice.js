@@ -1,4 +1,4 @@
-function Notice(caption, imageURL, parentElementId) {
+function Notice(caption, imageURL, noticeSubclass, parentElementId) {
   this.noticeId = "notice_" + Math.random();
   this.parentElementId = parentElementId;
   this.caption = caption;
@@ -7,9 +7,11 @@ function Notice(caption, imageURL, parentElementId) {
   this.render = () => {
       let htmlComponent = document.getElementById(this.parentElementId);
 
+      let noticeClass = "notice-layout" + (noticeSubclass ? " " + noticeSubclass : "");
+
       if (htmlComponent != undefined) {
         htmlComponent.innerHTML += `
-          <div id="${this.noticeId}" class="notice-layout"></div>
+          <div id="${this.noticeId}" class="${noticeClass}"></div>
         `;
 
         (new Label(this.caption, "notice-caption", this.noticeId)).render();

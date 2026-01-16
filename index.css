@@ -11,6 +11,9 @@ body {
   box-sizing: border-box;
 }
 
+.app {
+}
+
 /* Header */
 .header-items {
   position: fixed;
@@ -20,7 +23,8 @@ body {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  background-color: cadetblue;
+  background-color: #3582c4;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
 
@@ -33,7 +37,7 @@ body {
 .header-title {
   font-size: 30px;
   font-weight: bold;
-  color: black;
+  color: white;
 }
 
 .header-subtitle {
@@ -65,9 +69,10 @@ body {
 
 .list-item {
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 20px;
-  color: cornflowerblue;
-}
+  font-size: 25px;
+  font-weight: bold;
+  color: #3582c4;
+}  
 
 .list-item-strike-out {
   text-decoration: line-through;
@@ -85,6 +90,7 @@ input[type="checkbox"] {
   font: inherit;
   width: 1.5em;
   height: 1.5em;
+  accent-color: #3582c4;
 }
 
 .footer-buttons {
@@ -93,7 +99,7 @@ input[type="checkbox"] {
   left: 0;
   right: 0;
   display: flex;
-  background-color: cadetblue;
+  background-color: #3582c4;
   flex-direction: row;
   justify-content: center; 
   align-items: center;
@@ -107,12 +113,13 @@ input[type="checkbox"] {
 
 .basic-button {
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: white;
-  background-color:goldenrod;
+  _background-color:goldenrod;
+  background-color: #00ba37;
   border: none;
-  border-radius: 5px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 12px;
   width: fit-content;
 }
 
@@ -145,11 +152,17 @@ input[type="checkbox"] {
   z-index: 1000;
   width: 300px;
   background-color: rgba(255, 255, 255); /* blanco con alfa */
-  border: 2px solid black;
   border-radius: 12px;        /* esquinas redondeadas */
   margin: 0 auto; 
   padding: 8px;
+}
 
+.notice-error {
+  border: 2px solid #d63638;
+}
+
+.notice-success {
+  border: 2px solid #008a20;
 }
 
 .notice-caption {

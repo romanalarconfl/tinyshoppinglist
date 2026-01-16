@@ -2,7 +2,7 @@ function App(parentElementId) {
   this.appId = "app_" + Math.random(); 
   this.parentElementId = parentElementId;
 
-  this.showNoSelectedItemsNotice = false;
+  this.currentNotice = null;
   
   this.render = () => {
       this.buildComponents();
@@ -10,7 +10,7 @@ function App(parentElementId) {
       let htmlComponent = document.getElementById(this.parentElementId);
 
       if (htmlComponent != undefined) {
-         htmlComponent.innerHTML += `<div id="${this.appId}"></div>`;
+         htmlComponent.innerHTML += `<div id="${this.appId}" class="app"></div>`;
 
          this.components.forEach(component => {
              component.render();
@@ -32,9 +32,15 @@ function App(parentElementId) {
     this.reload()
   }
 
+  this.handleFinishShopping = () => {
+    this.setupCurrentNotice(
+      new Notice("Se complet&oacute; la compra", "assets/checkmark.png", "notice-success", this.appId)
+    );
+  }
+
   this.createList = () => {
     if(database.preparedListShowing()) {
-        return new PreparedList(this.appId, this.handleEmptyPreparedList);
+        return new PreparedList(this.appId, this.handleEmptyPreparedList, this.handleFinishShopping);
     }
 
     return new SelectionList(this.appId);
@@ -64,21 +70,33 @@ function App(parentElementId) {
        database.setShowPreparedList()
        this.reload()
      } else {
-       this.showNoSelectedItemsNotice = true;
-       this.reload();
-
-       setTimeout(() => {
-           this.showNoSelectedItemsNotice = false;
-           this.reload();
-       }, 2000);
+       this.setupCurrentNotice(
+           new Notice("No se eligieron productos!", "assets/warning.png", "notice-error", this.appId)
+       );
      }
   }
 
-  this.buildComponents = () => {
-     this.components = [new Header("Lista de compras", "Productos en general", this.appId)];
+  this.setupCurrentNotice = (notice) => {
+    this.currentNotice = notice;
 
-     if (this.showNoSelectedItemsNotice) {
-       this.components.push(new Notice("No se eligieron productos!", "assets/warning.png", this.appId));
+    setTimeout(() => {
+      this.currentNotice = null;
+      this.reload();
+    }, 2000);
+
+    this.reload();
+  }
+
+  this.buildComponents = () => {
+     let subtitle = "Productos en general"; 
+     if(database.preparedListShowing()) {
+        subtitle = "Productos elegidos";
+     }
+     
+     this.components = [new Header("Lista de compras", subtitle, this.appId)];
+
+     if (this.currentNotice) {
+        this.components.push(this.currentNotice)
      }  
 
      this.components.push(this.createList())

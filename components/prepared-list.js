@@ -1,4 +1,4 @@
-function PreparedList(parentElementId, onEmptyPreparedList) {
+function PreparedList(parentElementId, onEmptyPreparedList, onFinishShopping) {
   this.elementId = "prepared_list_" + Math.random();
   this.itemsListId = "prepared_items_list_" + Math.random();
   this.parentElementId = parentElementId;
@@ -9,6 +9,16 @@ function PreparedList(parentElementId, onEmptyPreparedList) {
       database.unmarkPreparedItemAsDone(productId)
     } else {
       database.markPreparedItemAsDone(productId)
+    }
+
+    let doneProducts = 0
+    database.preparedList.forEach(dictionary => {
+      const {done} = dictionary
+      doneProducts += done ? 1 : 0; 
+    })
+
+    if (this.listItems.length == doneProducts) {
+      onFinishShopping()
     }
 
     this.reload()
@@ -38,17 +48,10 @@ function PreparedList(parentElementId, onEmptyPreparedList) {
          htmlComponent.innerHTML += `<div id="${this.elementId}" class="list-items"></div>`;
 
          this.listItems = [];
-         let doneProducts = 0
-
          database.preparedList.forEach(dictionary => {
-           const {done, product} = dictionary
-           doneProducts += done ? 1 : 0; 
+           const {product} = dictionary
            this.listItems.push(new PreparedListItem(product, this.elementId, this.handleMarkOrUnmarkProductAsDone, this.handleDiscardItem))
          })
-
-         if (this.listItems.length == doneProducts) {
-           (new Notice("Se complet&oacute; la compra", "assets/checkmark.png", this.elementId)).render();
-         }
 
          if (this.listItems.length > 0) {
            this.listItems.forEach(item => {

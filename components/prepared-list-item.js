@@ -14,15 +14,14 @@ function PreparedListItem(product, parentElementId, onMarkOrUnmarkProductAsDone,
   this.onDiscardButtonClickHandler = (target) => {
     database.productSelectionState(this.productId, false)
     database.deletePreparedItem(this.productId)
-
     onDiscardItem()
   }
 
-  const doneOrUndoIcon = database.preparedItemIsDone(this.productId) ? "./assets/undo-button.png" 
-                                                                     : "./assets/done-button.png"
+  const addOrCancelIcon = database.preparedItemIsDone(this.productId) ? "./assets/cancel.png" 
+                                                                      : "./assets/checkmark.png"
 
   this.label = new Label(this.title, "list-item", this.preparedListItemId)
-  this.doneOrUndoButton = new ImageButton(doneOrUndoIcon, "image-button", this.buttonsSectionId, this.onDoneOrUndoButtonClickHandler)
+  this.addOrCancelButton = new ImageButton(addOrCancelIcon, "image-button", this.buttonsSectionId, this.onDoneOrUndoButtonClickHandler)
   this.discardButton = new ImageButton("./assets/discard-can.png", "image-button", this.buttonsSectionId, this.onDiscardButtonClickHandler)
 
   this.render = () => {
@@ -38,7 +37,7 @@ function PreparedListItem(product, parentElementId, onMarkOrUnmarkProductAsDone,
 
          this.label.render();
          this.discardButton.render();
-         this.doneOrUndoButton.render();
+         this.addOrCancelButton.render();
 
          if (database.preparedItemIsDone(this.productId)) {
             this.label.strikeOut()

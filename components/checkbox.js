@@ -22,7 +22,7 @@ function Checkbox(parentElementId, selected, productId, onCheckboxChangeHandler)
 
       if (htmlComponent != undefined) {
         htmlComponent.innerHTML += `
-          <input id="${this.checkboxId}" type="checkbox" ${this.selected?"checked": ""} onchange="objects.call('checkbox-onChange', ${this.productId}, this)"/> 
+          <input id="${this.checkboxId}" class="checkbox" type="checkbox" ${this.selected?"checked": ""} onchange="objects.call('checkbox-onChange', ${this.productId}, this)"/> 
         `;
       }
   }
