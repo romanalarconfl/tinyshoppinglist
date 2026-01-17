@@ -8,7 +8,7 @@ function Label(caption, cssClassId, parentElementId) {
     const wrappedLabel = document.getElementById(this.labelId)
 
     if(wrappedLabel != undefined) {
-      wrappedLabel.style.color = 'gray';  
+      wrappedLabel.style.color = 'lightgray';  
       wrappedLabel.style.textDecoration = 'line-through';
     }
   }
