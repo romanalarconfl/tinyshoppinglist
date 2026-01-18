@@ -51,5 +51,5 @@ function PreparedList(parentElementId, onEmptyPreparedList, onFinishShopping) {
     this.loadItems();
   }
 
-  this.dummyItem = new DummyItem("footer-dummy-item", this.is);
+  this.dummyItem = new DummyItem(this.id);
 }
