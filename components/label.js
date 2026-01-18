@@ -1,4 +1,4 @@
-function Label(caption, cssClassId, parentElementId) {
+/*function Label(caption, cssClassId, parentElementId) {
   this.labelId = "label_" + Math.random();
   this.caption = caption
   this.cssClassId = cssClassId
@@ -21,4 +21,4 @@ function Label(caption, cssClassId, parentElementId) {
         `;
       }
   }
-}
+}*/
