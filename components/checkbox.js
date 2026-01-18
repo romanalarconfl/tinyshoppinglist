@@ -1,29 +1,15 @@
-function Checkbox(parentElementId, selected, productId, onCheckboxChangeHandler) {
-  this.checkboxId = "checkbox_" + Math.random();
-  this.parentElementId = parentElementId;
-  this.selected = selected;
-  this.productId = productId;
-  this.onCheckboxChangeHandler = onCheckboxChangeHandler;
+function Checkbox(selected, productId, parentElementId, onCheckboxChangeHandler) {
+  _ = new Component(this, parentElementId, "");
 
-  objects.register(this.productId, 'checkbox-onChange', (target) => {
-      this.onCheckboxChangeHandler(this.productId, target.checked)
+  this.underlyingCheckboxId = "underlying-checkbox-" + this.id;
+
+  objects.register(`${this.id}`, 'checkbox-onChange', (target) => {
+    onCheckboxChangeHandler(productId, target.checked)
   });
 
-  this.disable = () => {
-    const wrappedButton = document.getElementById(this.buttonId)
-
-    if(wrappedButton != undefined) {
-      wrappedButton.style.color = 'lightgray';  
-    }
-  }
-
-  this.render = () => {
-      let htmlComponent = document.getElementById(this.parentElementId);
-
-      if (htmlComponent != undefined) {
-        htmlComponent.innerHTML += `
-          <input id="${this.checkboxId}" class="checkbox" type="checkbox" ${this.selected?"checked": ""} onchange="objects.call('checkbox-onChange', ${this.productId}, this)"/> 
-        `;
-      }
-  }
+  this.content = () => {
+    return `
+      <input id="${this.underlyingCheckboxId}" class="checkbox" type="checkbox" ${selected?"checked": ""} onchange="objects.call('checkbox-onChange', '${this.id}', this)"/> 
+    `;  
+  }  
 }

@@ -1,47 +1,47 @@
 function PreparedListItem(product, parentElementId, onMarkOrUnmarkProductAsDone, onDiscardItem) {
-  this.elementId = "prepared_list_" + Math.random();
+  _ = new Component(this, parentElementId, "list-item-row");
+
   this.productId = product.id;
-  this.preparedListItemId = "prepared-list-item-" + product.id;
-  this.buttonsSectionId = "prepared-list-item-buttons-" + product.id;
-  this.title = product.name;
-  this.parentElementId = parentElementId;
+
+  this.renderChildren = () => {
+    this.label.render()
+    this.preparedItemButtons.render();
+  }
+
+  this.checkLabelStrikeout = () => {
+    if (database.preparedItemIsDone(this.productId)){
+      this.label.strikeOut();
+    }
+  }
+
+  this.onRenderContainer = () => {
+    this.renderChildren();
+  }
+
+  this.onReloadContainer = () => {
+    this.renderChildren();
+  }
+
+  this.afterRender = () => {
+    this.checkLabelStrikeout()  
+  }
+
+  this.afterReload = () => {
+    this.checkLabelStrikeout()  
+  }
 
   this.onDoneOrUndoButtonClickHandler = (target) => {
-    this.label.strikeOut()
     onMarkOrUnmarkProductAsDone(this.productId)
+    this.reload();
   }
 
   this.onDiscardButtonClickHandler = (target) => {
     database.productSelectionState(this.productId, false)
     database.deletePreparedItem(this.productId)
+    this.unmount();
     onDiscardItem()
   }
 
-  const addOrCancelIcon = database.preparedItemIsDone(this.productId) ? "./assets/cancel.png" 
-                                                                      : "./assets/checkmark.png"
-
-  this.label = new Label(this.title, "list-item", this.preparedListItemId)
-  this.addOrCancelButton = new ImageButton(addOrCancelIcon, "image-button", this.buttonsSectionId, this.onDoneOrUndoButtonClickHandler)
-  this.discardButton = new ImageButton("./assets/discard-can.png", "image-button", this.buttonsSectionId, this.onDiscardButtonClickHandler)
-
-  this.render = () => {
-      let htmlComponent = document.getElementById(this.parentElementId);
-
-      if (htmlComponent != undefined) {
-         htmlComponent.innerHTML += `
-             <div class="list-item-row">
-                <div id="${this.preparedListItemId}" ></div>
-                <div id="${this.buttonsSectionId}" class="prepared-list-row-buttons-section" ></div>
-             </div>
-         `;
-
-         this.label.render();
-         this.discardButton.render();
-         this.addOrCancelButton.render();
-
-         if (database.preparedItemIsDone(this.productId)) {
-            this.label.strikeOut()
-         }
-      }
-  }
+  this.label = new Label(product.name, "list-item", this.id)
+  this.preparedItemButtons = new PreparedItemButtons(this.productId, this.id, this.onDoneOrUndoButtonClickHandler, this.onDiscardButtonClickHandler);
 }

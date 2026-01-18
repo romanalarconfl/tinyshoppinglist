@@ -1,66 +1,75 @@
 function App(parentElementId) {
-  this.appId = "app_" + Math.random(); 
-  this.parentElementId = parentElementId;
+  this.component = new Component(this, parentElementId, "app", this.onRender);
 
-  this.currentNotice = null;
-  
-  this.render = () => {
-      this.buildComponents();
+  this.createList = () => {
+    if(database.preparedListShowing()) {
+      return new PreparedList(this.id, this.handleEmptyPreparedList, this.handleFinishShopping);
+    }
 
-      let htmlComponent = document.getElementById(this.parentElementId);
-
-      if (htmlComponent != undefined) {
-         htmlComponent.innerHTML += `<div id="${this.appId}" class="app"></div>`;
-
-         this.components.forEach(component => {
-             component.render();
-         })
-      }
+    return new SelectionList(this.id);
   }
 
-  this.reload = () => {
-      let htmlComponent = document.getElementById(this.parentElementId);
+  this.renderChildren = () => {
+    this.header = new Header("Lista de compras", this.createSubtitle(), this.id)
+    this.header.render();
 
-      if (htmlComponent != undefined) {
-         htmlComponent.innerHTML = ""
-         this.render()
-      }
+    this.list = this.createList();
+    this.list.render();
+
+    this.footer = new FooterButtons(this.id, 
+                                  this.onResetButtonClick, 
+                                  this.onPrepareListButtonClick,  
+                                  this.onShowMainListClick);
+    this.footer.render();
+  }
+
+  this.onRenderContainer = () => {
+    this.renderChildren();
+  }
+
+  this.onReloadContainer = () => {
+    this.renderChildren();
   }
 
   this.handleEmptyPreparedList = () => {
     database.setShowMainList()
-    this.reload()
+    this.render()
   }
 
   this.handleFinishShopping = () => {
     this.setupCurrentNotice(
-      new Notice("Se complet&oacute; la compra", "assets/checkmark.png", "notice-success", this.appId)
+      new Notice("Se complet&oacute; la compra", "assets/checkmark.png", "notice-success", this.id)
     );
   }
 
-  this.createList = () => {
+  this.createSubtitle = () => {
+    let subtitle = "Productos en general"; 
     if(database.preparedListShowing()) {
-        return new PreparedList(this.appId, this.handleEmptyPreparedList, this.handleFinishShopping);
+      subtitle = "Productos elegidos";
     }
 
-    return new SelectionList(this.appId);
-  }
-
-  this.chackboxChangeHandler = (productId, checkStatus) => {
-    database.productSelectionState(productId, checkStatus)
-    database.print()
+    return subtitle;
   }
 
   this.onResetButtonClick = () => {
      database.clearPreparedList()
      database.setShowMainList()
      database.reset()
-     this.reload()
+     this.reload();
   }
 
   this.onShowMainListClick = () => {
      database.setShowMainList()
-     this.reload()
+     this.render()
+  }
+
+  this.setupCurrentNotice = (notice) => {
+    this.currentNotice = notice;
+    this.currentNotice.render();
+
+    setTimeout(() => {
+      this.currentNotice.unmount();
+    }, 2000);
   }
 
   this.onPrepareListButtonClick = () => {
@@ -68,43 +77,11 @@ function App(parentElementId) {
 
      if(!database.isPreparedListEmpty()) {
        database.setShowPreparedList()
-       this.reload()
+       this.render()
      } else {
        this.setupCurrentNotice(
-           new Notice("No se eligieron productos!", "assets/warning.png", "notice-error", this.appId)
+         new Notice("No se eligieron productos!", "assets/warning.png", "notice-error", this.id)
        );
      }
-  }
-
-  this.setupCurrentNotice = (notice) => {
-    this.currentNotice = notice;
-
-    setTimeout(() => {
-      this.currentNotice = null;
-      this.reload();
-    }, 2000);
-
-    this.reload();
-  }
-
-  this.buildComponents = () => {
-     let subtitle = "Productos en general"; 
-     if(database.preparedListShowing()) {
-        subtitle = "Productos elegidos";
-     }
-     
-     this.components = [new Header("Lista de compras", subtitle, this.appId)];
-
-     if (this.currentNotice) {
-        this.components.push(this.currentNotice)
-     }  
-
-     this.components.push(this.createList())
-     this.components.push(new ButtonsList(this.onResetButtonClick, 
-                                          this.onShowMainListClick, 
-                                          this.onPrepareListButtonClick,
-                                          this.onCheckboxChangeHandler,
-                                          this.parentElementId));
-
   }
 }

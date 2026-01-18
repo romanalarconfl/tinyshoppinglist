@@ -1,24 +1,28 @@
-/*function Label(caption, cssClassId, parentElementId) {
-  this.labelId = "label_" + Math.random();
-  this.caption = caption
-  this.cssClassId = cssClassId
-  this.parentElementId = parentElementId;
+function Label(caption, cssClassId, parentElementId) {
+  _ = new Component(this, parentElementId, "");
+
+  this.underlyingLabelId = "underlying-label-" + this.id;
+  this.strikedOut = false;
 
   this.strikeOut = () => {
-    const wrappedLabel = document.getElementById(this.labelId)
+    this.strikedOut = true;
+    this.reload();  
+  }
 
-    if(wrappedLabel != undefined) {
-      wrappedLabel.style.color = 'lightgray';  
-      wrappedLabel.style.textDecoration = 'line-through';
+  this.content = () => {
+    return `
+      <label id="${this.underlyingLabelId}" class="${cssClassId}">${caption}</label>
+    `;
+  }  
+
+  this.afterReload = () => {
+    if(this.strikedOut) {
+      const wrappedLabel = document.getElementById(this.underlyingLabelId)
+
+      if(wrappedLabel != undefined) {
+        wrappedLabel.style.color = 'lightgray';  
+        wrappedLabel.style.textDecoration = 'line-through';
+      }
     }
   }
-
-  this.render = () => {
-      let htmlComponent = document.getElementById(this.parentElementId);
-      if (htmlComponent != undefined) {
-        htmlComponent.innerHTML += `
-          <label id="${this.labelId}" class="${this.cssClassId}">${this.caption}</label> 
-        `;
-      }
-  }
-}*/
+}

@@ -1,7 +1,6 @@
 function PreparedList(parentElementId, onEmptyPreparedList, onFinishShopping) {
-  this.elementId = "prepared_list_" + Math.random();
-  this.itemsListId = "prepared_items_list_" + Math.random();
-  this.parentElementId = parentElementId;
+  _ = new Component(this, parentElementId, "list-items");
+
   this.listItems = [];
 
   this.handleMarkOrUnmarkProductAsDone = (productId) => {
@@ -20,46 +19,37 @@ function PreparedList(parentElementId, onEmptyPreparedList, onFinishShopping) {
     if (this.listItems.length == doneProducts) {
       onFinishShopping()
     }
-
-    this.reload()
   }
 
   this.handleDiscardItem = () => {
     if(database.isPreparedListEmpty()) {
       onEmptyPreparedList() 
-    } else {
-      this.reload()
     }
   } 
 
-  this.reload = () => {
-      let htmlComponent = document.getElementById(this.elementId);
+  this.loadItems = () => {
+    this.listItems = [];
+    database.preparedList.forEach(dictionary => {
+      const {product} = dictionary
+      this.listItems.push(new PreparedListItem(product, this.id, this.handleMarkOrUnmarkProductAsDone, this.handleDiscardItem))
+    })
 
-      if (htmlComponent != undefined) {
-         htmlComponent.innerHTML = ""
-         this.render();
-      }   
+    if (this.listItems.length > 0) {
+      this.listItems.forEach(item => {
+        item.render();
+      });
+    }
+
+    this.dummyItem.render();
   }
 
-  this.render = () => {
-      let htmlComponent = document.getElementById(this.parentElementId);
+  this.onReloadContainer = () => {
+    this.loadItems();
+  } 
 
-      if (htmlComponent != undefined) {
-         htmlComponent.innerHTML += `<div id="${this.elementId}" class="list-items"></div>`;
-
-         this.listItems = [];
-         database.preparedList.forEach(dictionary => {
-           const {product} = dictionary
-           this.listItems.push(new PreparedListItem(product, this.elementId, this.handleMarkOrUnmarkProductAsDone, this.handleDiscardItem))
-         })
-
-         if (this.listItems.length > 0) {
-           this.listItems.forEach(item => {
-               item.render();
-           });
-
-           (new DummyItem("footer-dummy-item", this.elementId)).render();
-         }
-     }
+  this.onRenderContainer = () => {
+    this.loadItems();
   }
+
+  this.dummyItem = new DummyItem("footer-dummy-item", this.is);
 }

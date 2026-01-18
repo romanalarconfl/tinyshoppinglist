@@ -1,30 +1,31 @@
 function SelectionList(parentElementId) {
-  this.elementId = "list_" + Math.random();
-  this.parentElementId = parentElementId;
+  _ = new Component(this, parentElementId, "list-items");
+
   this.listItems = [];
 
-  this.chackboxChangeHandler = (productId, checkStatus) => {
+  this.handleCheckboxChange = (productId, checkStatus) => {
     database.productSelectionState(productId, checkStatus)
     database.print()
   }
 
-  this.render = () => {
+  this.loadItems = () => {
+    this.listItems = [];
     database.products.forEach(product => {
-      this.listItems.push(new ListItem(product, this.elementId, this.chackboxChangeHandler))
+      this.listItems.push(new ListItem(product, this.id, this.handleCheckboxChange))
     })
 
-    let htmlComponent = document.getElementById(this.parentElementId);
+    this.listItems.push(new DummyItem(this.id))
 
-    if (htmlComponent != undefined) {
-      htmlComponent.innerHTML += `
-            <div id="${this.elementId}" class="list-items"></div>
-         `;
+    this.listItems.forEach(item => {
+      item.render();
+    });
+  }
 
-      this.listItems.forEach(item => {
-        item.render();
-      });
+  this.onReloadContainer = () => {
+    this.loadItems();
+  } 
 
-      (new DummyItem("footer-dummy-item", this.elementId)).render()
-    }
+  this.onRenderContainer = () => {
+    this.loadItems();
   }
 }
