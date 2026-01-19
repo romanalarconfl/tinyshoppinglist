@@ -39,7 +39,7 @@ function PreparedListItem(product, parentElementId, onMarkOrUnmarkProductAsDone,
     database.productSelectionState(this.productId, false)
     database.deletePreparedItem(this.productId)
     this.unmount();
-    onDiscardItem()
+    onDiscardItem(this.productId)
   }
 
   this.label = new Label(product.name, "list-item", this.id)

@@ -1,6 +1,9 @@
 function App(parentElementId) {
   this.component = new Component(this, parentElementId, "app", this.onRender);
 
+  this.timer = null;
+  this.currentNotice = null;
+
   this.createList = () => {
     if(database.preparedListShowing()) {
       return new PreparedList(this.id, this.handleEmptyPreparedList, this.handleFinishShopping);
@@ -64,10 +67,18 @@ function App(parentElementId) {
   }
 
   this.setupCurrentNotice = (notice) => {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    if(this.currentNotice) {
+      this.currentNotice.unmount();
+    }
+
     this.currentNotice = notice;
     this.currentNotice.render();
 
-    setTimeout(() => {
+    this.timer = setTimeout(() => {
       this.currentNotice.unmount();
     }, 2000);
   }

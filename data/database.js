@@ -171,11 +171,11 @@ function Database() {
     }
 
     this.mainListShowing = () => {
-        return localStorage.getItem(this.currentWindowKey) === MAIN_LIST  
+      return (localStorage.getItem(this.currentWindowKey) ?? MAIN_LIST) === MAIN_LIST;  
     }
 
     this.preparedListShowing = () => {
-        return localStorage.getItem(this.currentWindowKey) === PREPARED_LIST  
+      return (localStorage.getItem(this.currentWindowKey) ?? MAIN_LIST) === PREPARED_LIST;  
     }
 
     this.forceResetWhenLoading = () => {

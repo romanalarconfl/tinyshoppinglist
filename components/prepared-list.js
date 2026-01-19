@@ -21,7 +21,8 @@ function PreparedList(parentElementId, onEmptyPreparedList, onFinishShopping) {
     }
   }
 
-  this.handleDiscardItem = () => {
+  this.handleDiscardItem = (productId) => {
+    this.listItems = this.listItems.filter(item => item.productId !== productId);
     if(database.isPreparedListEmpty()) {
       onEmptyPreparedList() 
     }
