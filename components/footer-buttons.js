@@ -6,8 +6,8 @@ function FooterButtons(parentElementId, onResetButtonClick, onPrepareListButtonC
     this.prepareListButton.render() 
   }
 
-  this.cleanAllButton = new Button("Limpiar todo", "basic-button", this.id, onResetButtonClick);
+  this.cleanAllButton = new Button("Reiniciar", "basic-button", this.id, onResetButtonClick);
   this.prepareListButton = (database.mainListShowing()) ? 
       new Button("Preparar lista", "basic-button", this.id, onPrepareListButtonClick) : 
-      new Button("Agregar m&aacute;s", "basic-button", this.id, onShowMainListClick);
+      new Button("Modificar", "basic-button", this.id, onShowMainListClick);
 }

@@ -4,8 +4,8 @@ function PreparedItemButtons(productId, parentElementId, onDoneOrUndoButtonClick
   this.renderChildren = () => {
     this.discardButton.render() 
 
-    const addOrCancelIcon = database.preparedItemIsDone(productId) ? "./assets/cancel.png" 
-                                                                      : "./assets/checkmark.png"
+    const addOrCancelIcon = database.preparedItemIsDone(productId) ? "./assets/undo-button.png" 
+                                                                   : "./assets/checkmark-blue.png"
 
     this.addOrCancelButton = new ImageButton(addOrCancelIcon, "image-button", this.id, onDoneOrUndoButtonClickHandler)
     this.addOrCancelButton.render()    
@@ -19,7 +19,7 @@ function PreparedItemButtons(productId, parentElementId, onDoneOrUndoButtonClick
     this.renderChildren();
   }
 
-  this.discardButton = new ImageButton("./assets/discard-can.png", "image-button", this.id, onDiscardButtonClickHandler)
+  this.discardButton = new ImageButton("./assets/cancel.png", "image-button", this.id, onDiscardButtonClickHandler)
  }
 
  
